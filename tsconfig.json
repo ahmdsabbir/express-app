@@ -1,0 +1,42 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"composite": true,
+		"target": "ESNext",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020"],
+		"types": ["node", "express"],
+		"module": "commonjs",
+		"skipLibCheck": true,
+
+		"outDir": "build",
+		"rootDir": ".",
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"removeComments": true,
+
+		"strict": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noImplicitAny": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+
+		"forceConsistentCasingInFileNames": true,
+		"allowSyntheticDefaultImports": true,
+		"importHelpers": true,
+		"baseUrl": "./src",
+		"paths": {
+			"@/*": ["*"]
+		},
+
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"strictPropertyInitialization": false
+	},
+	"include": ["src/**/*.ts", "src/**/*.json", ".env", "package.json"],
+	"exclude": ["node_modules", "build"]
+}
