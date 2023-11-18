@@ -1,17 +1,18 @@
+import { createUser, getUser, allUsers } from "@/repositories/user";
 import { Request, Response } from "express";
 
 
-export const getUsers = (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
+    const users = await allUsers()
+    console.log('users', users);
+
     res.status(200).json({
-        message: 'Get all users'
+        message: 'Fetched users',
+        users: users
     })
 }
 
-export const addUser = (req: Request, res: Response) => {
-    res.status(201).json({
-        message: 'Add a user'
-    })
-}
+
 
 export const delUser = (req: Request, res: Response) => {
     res.status(200).json({
@@ -20,7 +21,11 @@ export const delUser = (req: Request, res: Response) => {
 }
 
 export const viewUser = (req: Request, res: Response) => {
+    const id: string = req.params.userId;
+    const user = getUser(id);
+
     res.status(200).json({
-        message: `View the user with id: ${req.params.userId}`
+        message: "User found",
+        user: user
     })
 }
