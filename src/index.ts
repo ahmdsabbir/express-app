@@ -1,18 +1,11 @@
-const express = require('express');
+import routes from './routes';
 
-import {Request, Response } from 'express';
+const express = require('express');
 
 const app = express()
 const port = 3000
 
-let count = 0
-
-app.get('/', (req: Request, res: Response) => {
-    count ++;
-    res.status(200).json({
-        'message': `Page ${req.url} has been visited ${count} times`
-    })
-} )
+app.use('/api', routes);
 
 app.listen(port, () => {
     console.log(`listening on port: ${port}`)
