@@ -1,4 +1,4 @@
-import { createUser, getUser, allUsers } from "@/repositories/user";
+import { createUser, getUser, allUsers, removeUser } from "@/repositories/user";
 import { Request, Response } from "express";
 
 
@@ -15,14 +15,22 @@ export const getUsers = async (req: Request, res: Response) => {
 
 
 export const delUser = (req: Request, res: Response) => {
-    res.status(200).json({
-        message: 'Delete a user'
-    })
+    try {
+        removeUser(req.params.userId)
+        res.status(200).json({
+            message: `User deleted`
+        })
+    }
+    catch(err) {
+        res.status(400).json({
+            message: `Could not delete: ${err}`
+        })
+    }
 }
 
-export const viewUser = (req: Request, res: Response) => {
+export const viewUser = async (req: Request, res: Response) => {
     const id: string = req.params.userId;
-    const user = getUser(id);
+    const user = await getUser(id);
 
     res.status(200).json({
         message: "User found",
