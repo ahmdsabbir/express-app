@@ -5,8 +5,11 @@ import {
     Entity, 
     PrimaryColumn,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    OneToOne
 } from "typeorm";
+
+import Credential from "./credentials";
 
 
 @Entity('users')
@@ -47,4 +50,11 @@ export default class User {
 
 	@DeleteDateColumn()
 	public deletedAt?: Date;
+
+    @OneToOne(() => Credential, (credential) => credential.user, {
+		cascade: true,
+		onDelete: 'CASCADE',
+		onUpdate: 'CASCADE',
+	})
+    public credential: Credential;
 }

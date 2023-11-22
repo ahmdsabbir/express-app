@@ -1,10 +1,10 @@
-import { createUser, getUser, allUsers, removeUser } from "@/repositories/user";
+import { getUser, allUsers, removeUser } from "@/repositories/user";
 import { Request, Response } from "express";
 
 
 export const getUsers = async (req: Request, res: Response) => {
     const users = await allUsers()
-    console.log('users', users);
+    console.log('users get', users);
 
     res.status(200).json({
         message: 'Fetched users',
