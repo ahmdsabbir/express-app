@@ -1,4 +1,5 @@
 import { AppDataSource } from "@/database/DataSource";
+import Credential from "@/database/entities/credentials";
 import User from "@/database/entities/users";
 
 export async function getUser(id:string) {
@@ -21,7 +22,7 @@ export async function getUser(id:string) {
         })
 }
 
-export async function allUsers() {
+export async function allUsers(page: number = 1, pageSize: number = 10) {
     const users = await AppDataSource.getRepository(User)
         .find({
             select: {
@@ -29,8 +30,11 @@ export async function allUsers() {
                 username: true,
                 email: true,
                 createdAt: true,
-                updatedAt: true
-            }
+                updatedAt: true,
+                status: true
+            },
+            skip: (page -1) * pageSize,
+            take: pageSize
         })
     return users;
 }
@@ -39,10 +43,14 @@ export async function createUser(username: string, password: string, email: stri
     const userRepository = AppDataSource.getRepository(User)
     const user = new User()
     user.username = username;
-    user.password = password;
     user.isVerified = true;
     user.email = email;
     user.role = role;
+
+    const credential = new Credential();
+    credential.password = password;
+    user.credential = credential;
+
     await userRepository.save(user)
 }
 
@@ -59,3 +67,14 @@ export const removeUser = async (id: string) => {
     }
     return null;
 }
+
+export const loginUser = async (userCred: string, password: string) => {
+    const user = await AppDataSource.getRepository(User)
+        .createQueryBuilder('user')
+        .where('user.username = :username', {username:userCred})
+        .leftJoinAndSelect('user.credential', 'credential')
+        .getOne()
+
+    console.log(user)
+    return null;
+};

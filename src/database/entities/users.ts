@@ -16,15 +16,15 @@ import Credential from "./credentials";
 export default class User {
     @PrimaryColumn()
     @PrimaryGeneratedColumn('uuid')
-    public id: string
+    public id: string;
 
     @Column({
         unique: true
     })
-    public username: string
+    public username: string;
 
     @Column()
-    public password: string
+    public password: string;
 
     @Column({
         unique: true
@@ -34,13 +34,19 @@ export default class User {
     @Column({
         default: true
     })
-    public isVerified: boolean
+    public isVerified: boolean;
 
     @Column({
         enum: ['USER', 'ADMIN', 'SUPER_ADMIN'],
         default: 'USER'
     })
-    public role: string
+    public role: string;
+
+    @Column({
+        enum: ['ACTIVE', 'INACTIVE', 'BANNED'],
+        default: 'ACTIVE'
+    })
+    public status: string;
 
     @CreateDateColumn()
 	public createdAt: Date;

@@ -1,4 +1,4 @@
-import { createUser } from "@/repositories/user";
+import { createUser, loginUser } from "@/repositories/user";
 import { Request, Response } from "express";
 
 export const addUser = async (req: Request, res: Response) => {
@@ -18,4 +18,17 @@ export const addUser = async (req: Request, res: Response) => {
             message: 'Could not add user'
         })
     }
+}
+
+export const userLogin = async (req: Request, res: Response) => {
+    const credential: string = req.body.credential;
+    const password: string = req.body.password;
+
+    console.log(credential, password)
+
+    const isVerified = await loginUser(credential, password);
+    return res.status(200).json({
+        message: 'User found',
+        user: isVerified
+    })
 }

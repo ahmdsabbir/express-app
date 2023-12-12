@@ -3,11 +3,12 @@ import { Request, Response } from "express";
 
 
 export const getUsers = async (req: Request, res: Response) => {
-    const users = await allUsers()
-    console.log('users get', users);
+    const { page, pageSize } = req.body;
+
+    const users = await allUsers(page, pageSize);
 
     res.status(200).json({
-        message: 'Fetched users',
+        message: `Fetched ${users.length} users`,
         users: users
     })
 }

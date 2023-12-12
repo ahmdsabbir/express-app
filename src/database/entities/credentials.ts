@@ -41,4 +41,8 @@ export default class Credential {
     hashPassword(): void {
         this.password = bcrypt.hashSync(this.password, 10)
     }
+
+    validatePassword(password: string): boolean {
+        return bcrypt.compareSync(password, this.password);
+    }
 }
