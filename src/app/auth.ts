@@ -15,20 +15,28 @@ export const addUser = async (req: Request, res: Response) => {
     }
     catch(err) {
         res.status(400).json({
-            message: 'Could not add user'
+            message: `Could not add user: ${err}`
         })
     }
 }
 
 export const userLogin = async (req: Request, res: Response) => {
-    const credential: string = req.body.credential;
+    const email: string = req.body.email;
     const password: string = req.body.password;
+    
+    const isVerified = await loginUser(email, password);
 
-    console.log(credential, password)
+    if (isVerified.value === null || isVerified.value === false) {
+        return res.status(400).json({
+            message: isVerified.message,
+            authorized: false
+        })
+    }
+    else if (isVerified.value === true) {
+        return res.status(200).json({
+            message: isVerified.message,
+            authorized: isVerified.value
+        })
 
-    const isVerified = await loginUser(credential, password);
-    return res.status(200).json({
-        message: 'User found',
-        user: isVerified
-    })
+    }
 }

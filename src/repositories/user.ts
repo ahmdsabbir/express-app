@@ -1,6 +1,9 @@
 import { AppDataSource } from "@/database/DataSource";
 import Credential from "@/database/entities/credentials";
 import User from "@/database/entities/users";
+import Resp from "@/utils/resp";
+import { Brackets } from 'typeorm';
+
 
 export async function getUser(id:string) {
     return await AppDataSource.getRepository(User)
@@ -68,13 +71,17 @@ export const removeUser = async (id: string) => {
     return null;
 }
 
-export const loginUser = async (userCred: string, password: string) => {
-    const user = await AppDataSource.getRepository(User)
-        .createQueryBuilder('user')
-        .where('user.username = :username', {username:userCred})
-        .leftJoinAndSelect('user.credential', 'credential')
-        .getOne()
+export const loginUser = async (email: string, password: string) => {
 
-    console.log(user)
-    return null;
+    const user = await AppDataSource
+        .getRepository(User)
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.credential', 'credential')
+        .where('user.email = :email', {email: email})
+        .getOne()
+        if (user == null) {
+            return new Resp('User not found', null);
+    }
+    return new Resp('User authorized', user.credential.validatePassword(password))
+    // return user.credential.validatePassword(password)
 };

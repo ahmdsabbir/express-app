@@ -33,8 +33,8 @@ export default class Credential {
 	@DeleteDateColumn()
 	public deletedAt?: Date;
 
-    @OneToOne(() => User, (user) => user.credential)
-    user: User;
+    @OneToOne(() => User, (user) => user.credential, { eager: true })
+	user: User;
 
     @BeforeInsert()
     @BeforeUpdate()

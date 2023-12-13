@@ -6,7 +6,8 @@ import {
     PrimaryColumn,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
-    OneToOne
+    OneToOne,
+    JoinColumn
 } from "typeorm";
 
 import Credential from "./credentials";
@@ -22,9 +23,6 @@ export default class User {
         unique: true
     })
     public username: string;
-
-    @Column()
-    public password: string;
 
     @Column({
         unique: true
@@ -62,5 +60,6 @@ export default class User {
 		onDelete: 'CASCADE',
 		onUpdate: 'CASCADE',
 	})
+    @JoinColumn()
     public credential: Credential;
 }
