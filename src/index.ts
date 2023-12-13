@@ -1,6 +1,9 @@
 import routes from './routes';
 import { AppDataSource } from './database/DataSource';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const express = require('express');
 
 const app = express()

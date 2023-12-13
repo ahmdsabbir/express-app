@@ -14,7 +14,6 @@ export const getUsers = async (req: Request, res: Response) => {
 }
 
 
-
 export const delUser = (req: Request, res: Response) => {
     try {
         removeUser(req.params.userId)
