@@ -1,9 +1,10 @@
-import { delUser, getUsers, viewUser } from "@/app/user";
+import { delUser, getUsers, viewUser } from "@/app/client/user";
+import { authorization } from "@/middlewares/auth";
 import { Router } from "express";
 
 const router: Router = Router();
 
-router.get('/', getUsers);
+router.get('/', authorization, getUsers);
 router.delete('/:userId', delUser);
 router.get('/:userId', viewUser);
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addUser, userLogin } from "@/app/auth";
+import { addUser, userLogin } from "@/app/client/auth";
 
 const router: Router = Router();
 
