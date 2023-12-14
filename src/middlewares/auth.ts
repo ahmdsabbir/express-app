@@ -33,9 +33,17 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
     next();
 }
 
+
 export const adminAuthorization = async (req: Request, res: Response, next: NextFunction) => {
     const authToken = req.headers['authorization']
     const token = authToken.split(' ')[1];
     const data = await verifyToken(token);
-    console.log(data);
+
+    if ( data.payload.userRole !== 'ADMIN' || data.payload.userRole !== 'SUPER_ADMIN') {
+        return res.status(403).json({
+            message: 'Forbidden'
+        })
+    }
+    
+    next();
 }
