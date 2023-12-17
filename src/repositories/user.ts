@@ -1,7 +1,6 @@
 import { AppDataSource } from "@/database/DataSource";
 import Credential from "@/database/entities/credentials";
 import User from "@/database/entities/users";
-import Resp from "@/utils/resp";
 
 
 export async function getUser(id:string) {
@@ -56,6 +55,22 @@ export async function createUser(username: string, password: string, email: stri
     await userRepository.save(user)
 }
 
+export const createUserFromAdmin = async (username: string, password: string, email: string, role: string, status: string, isVerified: boolean = false) => {
+    const userRepository = AppDataSource.getRepository(User)
+    const user = new User();
+    user.username = username;
+    user.email = email;
+    user.role = role;
+    user.status = status;
+    user.isVerified = isVerified;
+
+    const credential = new Credential();
+    credential.password = password;
+    user.credential = credential;
+
+    await userRepository.save(user);
+}
+
 export const removeUser = async (id: string) => {
     const user = await AppDataSource.getRepository(User)
             .findOne({
@@ -80,3 +95,15 @@ export const loginUser = async (email: string, password: string) => {
     
     return ( user == null || user.credential.validatePassword(password) == false ) ? {state: false, user: null} : {state: true, user: user}
 };
+
+
+export const setAdmin = async (id: string) => {
+    return await AppDataSource
+        .createQueryBuilder()
+        .update(User)
+        .set({
+            role: 'ADMIN'
+        })
+        .where('id = :id', {id: id})
+        .execute()
+}
