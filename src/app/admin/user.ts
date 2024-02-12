@@ -1,4 +1,4 @@
-import { createUserFromAdmin, getUser, setAdmin } from "@/repositories/user"
+import { createUserFromAdmin, getUser, rel, setAdmin } from "@/repositories/user"
 import { Request, Response } from "express"
 
 export const genUser = async (req: Request, res: Response) => {
@@ -44,4 +44,10 @@ export const upgradeUser = async (req: Request, res: Response) => {
             message: `Could not upgrade user to admin: ${err}`
         })
     }
+}
+
+export const getUsers = async (req: Request, res: Response) => {
+    const users = await rel();
+    console.log(users);
+    return 'okay'
 }

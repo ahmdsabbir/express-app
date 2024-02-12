@@ -40,6 +40,16 @@ export async function allUsers(page: number = 1, pageSize: number = 10) {
     return users;
 }
 
+export const rel = async () => {
+    return await AppDataSource
+        .getRepository(User)
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.credential', 'credential')
+        .addSelect('COUNT(credential.id)', 'credsCount')
+        .groupBy('user.id')
+        .getRawMany()
+}
+
 export async function createUser(username: string, password: string, email: string, role: string ='USER') {
     const userRepository = AppDataSource.getRepository(User)
     const user = new User()

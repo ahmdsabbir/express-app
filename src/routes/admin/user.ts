@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { genUser, upgradeUser } from "@/app/admin/user";
+import { genUser, upgradeUser, getUsers } from "@/app/admin/user";
 
 const router: Router = Router();
 
 router.post('/create', genUser);
-router.post('/upgrade', upgradeUser)
+router.post('/upgrade', upgradeUser);
+router.post('/rel', getUsers);
 
 export default router;
